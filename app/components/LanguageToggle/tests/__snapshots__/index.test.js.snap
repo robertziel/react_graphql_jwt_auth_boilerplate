@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LocaleToggle /> render should match the snapshot 1`] = `"<div class=\\"Wrapper-sc-1k1j1l-0 bzvZFs\\"><div class=\\"MuiInputBase-root Toggle-swzcly-0 hwtGRd\\"><div class=\\"MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input\\" tabindex=\\"0\\" role=\\"button\\" aria-haspopup=\\"listbox\\">en</div><input aria-hidden=\\"true\\" tabindex=\\"-1\\" class=\\"MuiSelect-nativeInput\\" value=\\"en\\"><svg class=\\"MuiSvgIcon-root MuiSelect-icon\\" focusable=\\"false\\" viewBox=\\"0 0 24 24\\" aria-hidden=\\"true\\"><path d=\\"M7 10l5 5 5-5z\\"></path></svg></div></div>"`;

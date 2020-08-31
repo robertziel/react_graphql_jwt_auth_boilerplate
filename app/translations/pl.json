@@ -1,0 +1,20 @@
+{
+  "app.components.Footer.author.message": "Stworzone przez {author}.",
+  "app.components.Sidebar.links.dashboardPage": "Główny panel",
+  "app.components.Sidebar.links.multipleChoice": "Wiele podstron",
+  "app.components.Sidebar.links.notFoundPage": "Nie znaleziono 404",
+  "app.components.Sidebar.links.onePage": "Pierwsza strona",
+  "app.components.Sidebar.links.profilePage": "Profil",
+  "app.components.Sidebar.links.threePage": "Page Three",
+  "app.components.Sidebar.links.twoPage": "Druga strona",
+  "app.containers.BackendApiConnector.fetchers.notifications.connectionRefusedNotify": "Nie można połączyć się z serwerem.",
+  "app.containers.HomePage.header": "To jest strona główna!",
+  "app.containers.NotFoundPage.header": "404 Ops, nie znaleziono strony!",
+  "app.containers.ProfilePage.header": "Profilowa strona! :)",
+  "app.containers.auth.SignInPage.form.button": "Zaloguj",
+  "app.containers.auth.SignInPage.form.email": "Email",
+  "app.containers.auth.SignInPage.form.password": "Hasło",
+  "app.containers.auth.SignInPage.notifications.signedInNotify": "Zostałeś zalogowany!",
+  "app.containers.auth.SignInPage.notifications.signedOutNotify": "Zostałeś wylogowany!",
+  "app.containers.auth.SignInPage.title": "Logowanie"
+}

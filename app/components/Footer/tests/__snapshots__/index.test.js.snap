@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Footer /> should render and match the snapshot 1`] = `
+"<footer class=\\"Wrapper-wcfdfo-0 fvxkdw\\"><section><div class=\\"message\\"><span>
+      Designed by <a href=\\"https://robertz.co\\" target=\\"_blank\\">Robert Zieliński</a>.
+    </span></div><div class=\\"footer-right\\"><div>LanguageToggle</div></div></section></footer>"
+`;

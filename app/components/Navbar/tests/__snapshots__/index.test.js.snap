@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Navbar /> should render and match the snapshot 1`] = `"<nav class=\\"Wrapper-rw3tpv-0 ermAON\\"><div class=\\"navbar-right\\"><div class=\\"Wrapper-vnjem8-0 gCpCbH\\"><form><button class=\\"MuiButtonBase-root MuiButton-root MuiButton-text Button-sc-17yegtu-0 hgvcTd\\" tabindex=\\"0\\" type=\\"submit\\"><span class=\\"MuiButton-label\\"><span aria-hidden=\\"true\\" class=\\"fa fa-power-off\\"></span></span><span class=\\"MuiTouchRipple-root\\"></span></button></form></div></div><div class=\\"navbar-right\\"><div>LanguageToggle</div></div></nav>"`;

@@ -1,0 +1,20 @@
+{
+  "app.components.Footer.author.message": "Designed by {author}.",
+  "app.components.Sidebar.links.dashboardPage": "Dashboard",
+  "app.components.Sidebar.links.multipleChoice": "Multiple choice",
+  "app.components.Sidebar.links.notFoundPage": "Not found page",
+  "app.components.Sidebar.links.onePage": "One page",
+  "app.components.Sidebar.links.profilePage": "Profile",
+  "app.components.Sidebar.links.threePage": "Page Three",
+  "app.components.Sidebar.links.twoPage": "Two page",
+  "app.containers.BackendApiConnector.fetchers.notifications.connectionRefusedNotify": "Cannot connect to the server.",
+  "app.containers.HomePage.header": "This is the HomePage container!",
+  "app.containers.NotFoundPage.header": "404 Not found!",
+  "app.containers.ProfilePage.header": "Your profile",
+  "app.containers.auth.SignInPage.form.button": "Sign in",
+  "app.containers.auth.SignInPage.form.email": "E-mail",
+  "app.containers.auth.SignInPage.form.password": "Password",
+  "app.containers.auth.SignInPage.notifications.signedInNotify": "You are signed in!",
+  "app.containers.auth.SignInPage.notifications.signedOutNotify": "Signed out successfully!",
+  "app.containers.auth.SignInPage.title": "Sign in"
+}

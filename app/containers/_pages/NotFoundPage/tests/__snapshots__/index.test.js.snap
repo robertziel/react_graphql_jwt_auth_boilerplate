@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NotFoundPage /> should render and match the snapshot 1`] = `"<div class=\\"MuiGrid-root Grid-sc-1hkmrvu-0 NPciN MuiGrid-container\\"><div class=\\"MuiGrid-root Grid-sc-1hkmrvu-0 NPciN MuiGrid-item MuiGrid-grid-xs-12\\"><h1 class=\\"H1-sc-1hnsqhn-0 eVZYlZ\\"><span>404 Not found!</span></h1><hr class=\\"MuiDivider-root Divider-l75xrl-0 gGKxTy\\"></div></div>"`;
