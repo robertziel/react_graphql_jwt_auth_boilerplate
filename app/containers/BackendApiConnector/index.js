@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { ApolloProvider } from '@apollo/client';
 
 import SignInPage from 'containers/_authPages/SignInPage/Loadable';
 
@@ -17,6 +18,7 @@ import InternetConnectionDetector from 'containers/InternetConnectionDetector';
 import CurrentUserLoader from './CurrentUserLoader';
 import { authenticationTokenSelector } from './selectors';
 import StoreAccessor from './StoreAccessor';
+import apolloClient from './apollo/client.js';
 
 export class BackendApiConnector extends Component {
   constructor(props) {
@@ -27,9 +29,11 @@ export class BackendApiConnector extends Component {
 
   authenticatedContent() {
     return (
-      <CurrentUserLoader>
-        {React.Children.only(this.props.children)}
-      </CurrentUserLoader>
+      <ApolloProvider client={apolloClient}>
+        <CurrentUserLoader>
+          {React.Children.only(this.props.children)}
+        </CurrentUserLoader>
+      </ApolloProvider>
     );
   }
 

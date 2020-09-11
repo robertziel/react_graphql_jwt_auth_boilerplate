@@ -50,8 +50,6 @@ function Form({ intl, user }) {
       },
       afterSuccess: (result) => {
         const feedback = result.profileUpdate;
-        console.log(feedback.success);
-        console.log(feedback.errors);
         if (feedback.success) {
           profileUpdateSucceededNotify();
           setErrorMessages({});

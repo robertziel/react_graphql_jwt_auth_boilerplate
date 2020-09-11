@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import fetch from 'unfetch';
@@ -16,7 +16,7 @@ function getAuthenticationToken() {
 const httpLink = createHttpLink({
   uri: BACKEND_API_URL,
   credentials: 'include',
-  fetch: fetch,
+  fetch,
 });
 
 const authLink = setContext((_, { headers }) => {

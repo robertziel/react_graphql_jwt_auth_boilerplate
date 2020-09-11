@@ -8,8 +8,9 @@ import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
 import waitForExpect from 'wait-for-expect';
 
-import loadApiFetchMock from 'testsHelpers/loadApiFetchMock';
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
+import { MockedProvider } from '@apollo/client/testing';
+import { PROFILE_QUERY } from '../graphql';
 
 import { setAuthenticationToken } from '../actions';
 import CurrentUserLoader from '../CurrentUserLoader';
@@ -18,55 +19,64 @@ const authenticationToken = 'a token';
 const currentUser = { name: 'User' };
 const submitPath = '/current_user';
 
+const mockResponse = currentUser;
+const mocks = () => [
+  {
+    request: {
+      query: PROFILE_QUERY,
+    },
+    result: {
+      data: {
+        profile: mockResponse,
+      },
+    },
+  },
+];
+
+let store;
+let wrapper;
+
 function mountWrapper() {
-  return mount(
+  wrapper = mount(
     <IntlProvider locale="en">
       <Provider store={store}>
-        <CurrentUserLoader>
-          <div className="application"></div>
-        </CurrentUserLoader>
+        <MockedProvider mocks={mocks()} addTypename={false}>
+          <CurrentUserLoader>
+            <div className="application"></div>
+          </CurrentUserLoader>
+        </MockedProvider>
       </Provider>
     </IntlProvider>,
   );
 }
 
-let store;
-let wrapper;
-
 beforeEach(() => {
   store = new ConfigureTestStore().store;
-  act(() => {
-    store.dispatch(setAuthenticationToken(authenticationToken));
-  });
+  store.dispatch(setAuthenticationToken(authenticationToken));
 });
 
 describe('<CurrentUserLoader />', () => {
   context('when GET /current_user succeeded', () => {
-    loadApiFetchMock({
-      method: 'GET',
-      path: submitPath,
-      responseBody: currentUser,
-      status: 200,
-    });
-
     beforeEach(async () => {
-      await act(async () => {
-        wrapper = mountWrapper();
-      });
+      await mountWrapper();
     });
 
     it('should save new currentUser in redux store', async () => {
-      await waitForExpect(() => {
-        expect(store.getState().backendApiConnector.currentUser).toEqual(
-          currentUser,
-        );
+      await act(async () => {
+        waitForExpect(() => {
+          expect(store.getState().backendApiConnector.currentUser).toEqual(
+            currentUser,
+          );
+        });
       });
     });
 
     it('should render children', async () => {
-      await waitForExpect(() => {
-        wrapper.update();
-        expect(wrapper.exists('.application')).toBe(true);
+      await act(async () => {
+        waitForExpect(() => {
+          wrapper.update();
+          expect(wrapper.exists('.application')).toBe(true);
+        });
       });
     });
   });

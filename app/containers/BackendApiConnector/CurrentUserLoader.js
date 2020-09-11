@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
@@ -7,26 +7,19 @@ import { createSelector } from 'reselect';
 import { colors } from 'styles/constants';
 import { FulfillingBouncingCircleSpinner } from 'react-epic-spinners';
 
-import { setCurrentUser } from 'containers/BackendApiConnector/actions';
-import useApiFetcher from 'containers/BackendApiConnector/fetcher';
 import FetchedContent from 'containers/FetchedContent';
+import { setCurrentUser } from './actions';
+import useQuery from './fetcher/query';
 
 import { currentUserSelector } from './selectors';
 import { PROFILE_QUERY } from './graphql';
 
 function CurrentUserLoader({ children, currentUser, onLoadSuccess }) {
-  const fetcher = useApiFetcher();
-
-  const loadCurrentUser = () => {
-    fetcher.query({
-      query: PROFILE_QUERY,
-      afterSuccess: (result) => {
-        onLoadSuccess(result.profile);
-      },
-    });
-  };
-
-  useEffect(() => loadCurrentUser(), []);
+  useQuery(PROFILE_QUERY, {
+    onCompleted: (data) => {
+      onLoadSuccess(data.profile);
+    },
+  });
 
   return (
     <FetchedContent

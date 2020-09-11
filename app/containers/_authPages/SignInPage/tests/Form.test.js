@@ -26,21 +26,19 @@ const submitPath = '/auth/sign_in';
 let store;
 let wrapper;
 let mockResponse = null;
-const mocks = () => {
-  return [
-    {
-      request: {
-        query: AUTH_LOGIN_MUTATION,
-        variables: { email, password },
-      },
-      result: {
-        data: {
-          authLogin: mockResponse,
-        },
+const mocks = () => [
+  {
+    request: {
+      query: AUTH_LOGIN_MUTATION,
+      variables: { email, password },
+    },
+    result: {
+      data: {
+        authLogin: mockResponse,
       },
     },
-  ];
-}
+  },
+];
 
 function mountWrapper() {
   return mount(
