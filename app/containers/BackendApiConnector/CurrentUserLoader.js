@@ -9,7 +9,7 @@ import { FulfillingBouncingCircleSpinner } from 'react-epic-spinners';
 
 import FetchedContent from 'containers/FetchedContent';
 import { setCurrentUser } from './actions';
-import useQuery from './fetcher/query';
+import { useQuery } from './apollo/fetchers';
 
 import { currentUserSelector } from './selectors';
 import { PROFILE_QUERY } from './graphql';

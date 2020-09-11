@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import useIsMounted from 'react-is-mounted-hook';
-import { useMutation as useMutationApollo } from '@apollo/client';
-import apiFetch from './apiFetch';
+import { useQuery as useQueryApollo } from '@apollo/client';
 
-export default function useMutation(mutation) {
+export function useQuery(query, options) {
   const isMounted = useIsMounted();
   const [processing, setProcessing] = useState(false);
 
-  [mutate, options] = useMutationApollo(mutation);
+  const apollo = useQueryApollo(query, options);
 
   const component = {
     isMounted,
@@ -15,5 +14,5 @@ export default function useMutation(mutation) {
     setProcessing,
   };
 
-  return [mutate, options];
+  return apollo;
 }
