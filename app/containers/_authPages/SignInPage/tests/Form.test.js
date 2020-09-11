@@ -10,12 +10,12 @@ import { act } from 'react-dom/test-utils';
 
 import NotificationSystem from 'containers/NotificationsSystem';
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
-import loadApiFetchMock from 'testsHelpers/loadApiFetchMock';
 
 import backendApiConnectorMessages from 'containers/BackendApiConnector/messages';
 import IntlCatcher from 'containers/LanguageProvider/IntlCatcher';
 import Form from '../Form';
 import messages from '../messages';
+import { AUTH_LOGIN_MUTATION } from '../graphql';
 
 const authenticationToken = 'a token';
 const errorMessage = 'Error message';
@@ -25,6 +25,22 @@ const submitPath = '/auth/sign_in';
 
 let store;
 let wrapper;
+let mockResponse = null;
+const mocks = () => {
+  return [
+    {
+      request: {
+        query: AUTH_LOGIN_MUTATION,
+        variables: { email, password },
+      },
+      result: {
+        data: {
+          authLogin: mockResponse,
+        },
+      },
+    },
+  ];
+}
 
 function mountWrapper() {
   return mount(
@@ -58,23 +74,15 @@ function fillInAndSubmitForm() {
   wrapper.find('button[type="submit"]').simulate('submit');
 }
 
-beforeEach(() => {
-  configureWrapper();
-});
-
 describe('<Form />', () => {
   context('when sign in succeeded', () => {
-    loadApiFetchMock({
-      method: 'POST',
-      path: submitPath,
-      requestBody: { email, password },
-      responseBody: { authentication_token: authenticationToken },
-      status: 200,
+    beforeEach(() => {
+      mockResponse = { token: authenticationToken };
+      configureWrapper();
+      fillInAndSubmitForm();
     });
 
     it('should save new authenticationToken in redux store', async () => {
-      fillInAndSubmitForm();
-
       await waitForExpect(() => {
         expect(
           store.getState().backendApiConnector.authenticationToken,
@@ -83,8 +91,6 @@ describe('<Form />', () => {
     });
 
     it('should add signed in notification', async () => {
-      fillInAndSubmitForm();
-
       await waitForExpect(() => {
         expect(wrapper.text()).toContain(
           messages.signedInNotify.defaultMessage,
@@ -94,17 +100,13 @@ describe('<Form />', () => {
   });
 
   context('when sign in not succeeded', () => {
-    loadApiFetchMock({
-      method: 'POST',
-      path: submitPath,
-      requestBody: { email, password },
-      responseBody: { error_message: errorMessage },
-      status: 401,
+    beforeEach(() => {
+      mockResponse = { token: null };
+      configureWrapper();
+      fillInAndSubmitForm();
     });
 
     it('should render an error message without unauthorized notification', async () => {
-      fillInAndSubmitForm();
-
       await waitForExpect(() => {
         wrapper.update();
         expect(wrapper.contains(errorMessage)).toEqual(true);

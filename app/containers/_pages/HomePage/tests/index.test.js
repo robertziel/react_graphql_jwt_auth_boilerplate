@@ -9,14 +9,8 @@ import { act } from 'react-dom/test-utils';
 import IntlCatcher from 'containers/LanguageProvider/IntlCatcher';
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
 
-import ActiveTokens from 'components/ActiveTokens';
 import HomePage from '../Loadable';
-
-// Mock ActiveTokens required by HomePage
-jest.mock('components/ActiveTokens/index.js', () => () => (
-  <div>ActiveTokens</div>
-));
-/* eslint-enable react/prop-types */
+import messages from '../messages';
 
 let store;
 let wrapper;
@@ -48,7 +42,7 @@ describe('<HomePage />', () => {
   it('should render ActiveTokens', async () => {
     await waitForExpect(() => {
       wrapper.update();
-      expect(wrapper.find(ActiveTokens).length).toEqual(1);
+      expect(wrapper.text()).toContain(messages.header.defaultMessage);
     });
   });
 });

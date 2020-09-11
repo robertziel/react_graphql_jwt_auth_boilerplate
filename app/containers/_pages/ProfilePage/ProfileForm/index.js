@@ -14,8 +14,10 @@ function ProfileForm() {
   const [user, setUser] = useState();
 
   const fetchData = () => {
-    fetcher.get({
-      path: '/profile',
+    fetcher.query({
+      query: `
+        query { profile { firstName lastName email }}
+      `,
       afterSuccess: (result) => setUser(result.profile),
     });
   };

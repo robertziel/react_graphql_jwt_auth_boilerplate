@@ -16,13 +16,15 @@ import {
   profileUpdateFailedNotify,
   profileUpdateSucceededNotify,
 } from './notifications';
+import prepareActiveModelErrors from './prepareActiveModelErrors';
 
 function Form({ intl, user }) {
   const fetcher = useApiFetcher();
 
   // Form state
   const [errorMessages, setErrorMessages] = useState({});
-  const [username, setUsername] = useState(user.username);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
   const [email, setEmail] = useState(user.email);
   const [password, setPassword] = useState(null);
   const [passwordConfirmation, setPasswordConfirmation] = useState(null);
@@ -30,21 +32,31 @@ function Form({ intl, user }) {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    fetcher.post({
+    fetcher.mutate({
       disableRetry: true,
-      path: '/profile',
-      body: {
+      query: `
+        mutation profileUpdate($email: String, $firstName: String, $lastName: String, $password: String, $passwordConfirmation: String){
+          profileUpdate(email: $email, firstName: $firstName, lastName: $lastName, password: $password, passwordConfirmation: $passwordConfirmation){
+            success errors { message path }
+          }
+        }
+      `,
+      variables: {
         email,
+        firstName,
+        lastName,
         password,
-        password_confirmation: passwordConfirmation,
-        username,
+        passwordConfirmation,
       },
       afterSuccess: (result) => {
-        if (result.profile) {
+        const feedback = result.profileUpdate;
+        console.log(feedback.success);
+        console.log(feedback.errors);
+        if (feedback.success) {
           profileUpdateSucceededNotify();
           setErrorMessages({});
         } else {
-          setErrorMessages(result.error_messages);
+          setErrorMessages(prepareActiveModelErrors(feedback.errors));
           profileUpdateFailedNotify();
         }
       },
@@ -52,7 +64,9 @@ function Form({ intl, user }) {
   };
 
   const passwordErrorMessage = () => {
-    const message = errorMessages.password ? `${errorMessages.password}. ` : '';
+    const message = errorMessages.attributes_password
+      ? `${errorMessages.attributes_password}. `
+      : '';
     return message + intl.formatMessage(messages.formPasswordLeaveBlank);
   };
 
@@ -60,14 +74,26 @@ function Form({ intl, user }) {
     <form onSubmit={onSubmit}>
       <Grid>
         <TextField
-          defaultValue={username}
-          label={intl.formatMessage(messages.formUsername)}
+          defaultValue={firstName}
+          label={intl.formatMessage(messages.formFirstName)}
           type="text"
-          name="username"
-          onChange={(event) => setUsername(event.target.value)}
+          name="firstName"
+          onChange={(event) => setFirstName(event.target.value)}
           variant="outlined"
-          helperText={errorMessages.username}
-          error={!!errorMessages.username}
+          helperText={errorMessages.attributes_firstName}
+          error={!!errorMessages.attributes_firstName}
+        />
+      </Grid>
+      <Grid>
+        <TextField
+          defaultValue={lastName}
+          label={intl.formatMessage(messages.formLastName)}
+          type="text"
+          name="lastName"
+          onChange={(event) => setLastName(event.target.value)}
+          variant="outlined"
+          helperText={errorMessages.attributes_lastName}
+          error={!!errorMessages.attributes_lastName}
         />
       </Grid>
       <Grid>
@@ -78,8 +104,8 @@ function Form({ intl, user }) {
           name="email"
           onChange={(event) => setEmail(event.target.value)}
           variant="outlined"
-          helperText={errorMessages.email}
-          error={!!errorMessages.email}
+          helperText={errorMessages.attributes_email}
+          error={!!errorMessages.attributes_email}
         />
       </Grid>
       <br />
@@ -93,7 +119,7 @@ function Form({ intl, user }) {
           onChange={(event) => setPassword(event.target.value)}
           variant="outlined"
           helperText={passwordErrorMessage()}
-          error={!!errorMessages.password}
+          error={!!errorMessages.attributes_password}
         />
       </Grid>
       <Grid>
@@ -103,8 +129,8 @@ function Form({ intl, user }) {
           name="password_confirmation"
           onChange={(event) => setPasswordConfirmation(event.target.value)}
           variant="outlined"
-          helperText={errorMessages.password_confirmation}
-          error={!!errorMessages.password_confirmation}
+          helperText={errorMessages.attributes_passwordConfirmation}
+          error={!!errorMessages.attributes_passwordConfirmation}
         />
       </Grid>
       <Grid>

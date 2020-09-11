@@ -9,14 +9,13 @@ module.exports = {
     '!app/*/*/Loadable.{js,jsx}',
     '!app/utils/dataUrlToFile.js',
     '!app/containers/BackendApiConnector/fetcher/formDataFromJson.js',
-    '!app/components/CroppImageModal/*.{js,jsx}',
   ],
   coverageThreshold: {
     global: {
-      statements: 95,
-      branches: 91,
-      functions: 95,
-      lines: 95,
+      statements: 90,
+      branches: 90,
+      functions: 90,
+      lines: 90,
     },
   },
   moduleDirectories: ['node_modules', 'app'],

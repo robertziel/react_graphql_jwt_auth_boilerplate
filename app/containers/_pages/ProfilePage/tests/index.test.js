@@ -8,7 +8,6 @@ import { act } from 'react-dom/test-utils';
 
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
 
-import AvatarForm from '../AvatarForm';
 import ProfileForm from '../ProfileForm';
 import ProfilePage from '../Loadable';
 
@@ -16,11 +15,6 @@ import ProfilePage from '../Loadable';
 // Mock ProfileForm required by Profile
 jest.mock('containers/_pages/ProfilePage/ProfileForm/index', () => () => (
   <div>ProfileForm</div>
-));
-
-// Mock AvatarForm required by Profile
-jest.mock('containers/_pages/ProfilePage/AvatarForm/index', () => () => (
-  <div>AvatarForm</div>
 ));
 /* eslint-enable react/prop-types */
 
@@ -47,13 +41,6 @@ async function configureWrapper() {
 describe('<ProfilePage />', () => {
   beforeEach(() => {
     configureWrapper();
-  });
-
-  it('should render AvatarForm', async () => {
-    await waitForExpect(() => {
-      wrapper.update();
-      expect(wrapper.find(AvatarForm).length).toEqual(1);
-    });
   });
 
   it('should render ProfileForm', async () => {

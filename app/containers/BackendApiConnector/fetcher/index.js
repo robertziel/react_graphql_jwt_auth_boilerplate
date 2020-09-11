@@ -13,9 +13,8 @@ export default function useApiFetcher() {
   };
 
   return {
-    delete: (config) => apiFetch('DELETE', component, config),
-    get: (config) => apiFetch('GET', component, config),
-    post: (config) => apiFetch('POST', component, config),
+    query: (config) => apiFetch('query', component, config),
+    mutate: (config) => apiFetch('mutate', component, config),
     processing,
   };
 }

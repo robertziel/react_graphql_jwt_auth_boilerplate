@@ -8,9 +8,13 @@ import { defineMessages } from 'react-intl';
 export const scope = 'app.containers.ProfilePage.ProfileForm';
 
 export default defineMessages({
-  formUsername: {
-    id: `${scope}.form.username`,
-    defaultMessage: 'Username',
+  formFirstName: {
+    id: `${scope}.form.firstName`,
+    defaultMessage: 'First name',
+  },
+  formLastName: {
+    id: `${scope}.form.lastName`,
+    defaultMessage: 'Last name',
   },
   formEmail: {
     id: `${scope}.form.email`,

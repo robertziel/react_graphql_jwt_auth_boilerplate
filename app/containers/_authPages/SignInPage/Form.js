@@ -10,6 +10,7 @@ import useApiFetcher from 'containers/BackendApiConnector/fetcher';
 
 import messages from './messages';
 import { signedInNotify } from './notifications';
+import { AUTH_LOGIN_MUTATION } from './graphql';
 
 function Form({ intl, onSignInSuccess }) {
   const fetcher = useApiFetcher();
@@ -22,20 +23,23 @@ function Form({ intl, onSignInSuccess }) {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    fetcher.post({
+    fetcher.mutate({
       disableRetry: true,
       signIn: true,
-      path: '/auth/sign_in',
-      body: {
+      mutation: AUTH_LOGIN_MUTATION,
+      variables: {
         email,
         password,
       },
       afterSuccess: (result) => {
-        setErrorMessage(result.error_message);
-
-        if (result.authentication_token) {
-          onSignInSuccess(result.authentication_token);
+        const feedback = result.authLogin;
+        if (feedback.token) {
+          onSignInSuccess(feedback.token);
           signedInNotify();
+        } else {
+          setErrorMessage(
+            intl.formatMessage(messages.wrongSignInCredentialsError),
+          );
         }
       },
     });
@@ -53,6 +57,7 @@ function Form({ intl, onSignInSuccess }) {
           name="email"
           onChange={(event) => setEmail(event.target.value)}
           variant="outlined"
+          required
         />
       </Grid>
       <Grid>
@@ -62,6 +67,7 @@ function Form({ intl, onSignInSuccess }) {
           name="password"
           onChange={(event) => setPassword(event.target.value)}
           variant="outlined"
+          required
         />
       </Grid>
       <Grid>

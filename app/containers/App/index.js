@@ -23,7 +23,6 @@ import { sidebarToggleSelector } from 'components/Sidebar/selectors';
 
 import HomePage from 'containers/_pages/HomePage/Loadable';
 import ProfilePage from 'containers/_pages/ProfilePage/Loadable';
-import UsersPage from 'containers/_pages/UsersPage/Loadable';
 import NotFoundPage from 'containers/_pages/NotFoundPage/Loadable';
 
 import ContentWrapper from './ContentWrapper';
@@ -37,7 +36,6 @@ function App(props) {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/profile" component={ProfilePage} />
-          <Route exact path="/users" component={UsersPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </Scroll>

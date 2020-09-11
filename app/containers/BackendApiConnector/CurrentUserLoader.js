@@ -12,14 +12,17 @@ import useApiFetcher from 'containers/BackendApiConnector/fetcher';
 import FetchedContent from 'containers/FetchedContent';
 
 import { currentUserSelector } from './selectors';
+import { PROFILE_QUERY } from './graphql';
 
 function CurrentUserLoader({ children, currentUser, onLoadSuccess }) {
   const fetcher = useApiFetcher();
 
   const loadCurrentUser = () => {
-    fetcher.get({
-      path: '/current_user',
-      afterSuccess: (result) => onLoadSuccess(result),
+    fetcher.query({
+      query: PROFILE_QUERY,
+      afterSuccess: (result) => {
+        onLoadSuccess(result.profile);
+      },
     });
   };
 

@@ -2,9 +2,16 @@
 
 Init commit based on https://github.com/robertziel/simple_panel_react_client
 
+## Quick start
+
+Clone env_sample to .env for local development.
+
+```
+cp .env.example .env
+```
+
 Run using npm
 ```
-cd react_client
 npm install
 npm start
 ```
@@ -20,9 +27,7 @@ const fetcher = useApiFetcher();
 To make code clean it is better to use ***one fetcher per component***.
 
 2. Now you can call fetch function in your component. **Available fetchers:**
-  * `fetcher.delete(options: { disableRetry, path, body, afterSuccess() })`
-  * `fetcher.get(options: { disableRetry, path, afterSuccess() })`
-  * `fetcher.post(options: { disableRetry, path, body, afterSuccess() })`
+  * `fetcher.graphql(options: { disableRetry, query, afterSuccess() })`
 
   ---
 

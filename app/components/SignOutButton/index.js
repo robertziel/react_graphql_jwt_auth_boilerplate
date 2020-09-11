@@ -19,11 +19,7 @@ function SignOutButton({ onSignOutSuccess }) {
   const signOut = (event) => {
     event.preventDefault();
 
-    fetcher.delete({
-      disableRetry: true,
-      path: '/auth/sign_out',
-      afterSuccess: () => onSignOutSuccess(),
-    });
+    onSignOutSuccess();
   };
 
   return (

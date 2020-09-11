@@ -6,9 +6,8 @@
  *
  */
 
-import queryString from 'query-string';
-
 import { nullifyAuthenticationCredentials } from 'containers/BackendApiConnector/actions';
+import client from '../apollo/client';
 
 import { unauthorizedNotify } from '../notifications';
 
@@ -16,28 +15,10 @@ import {
   reportConnectionRefused,
   reportConnectionSucceeded,
 } from './connectionRefusedHandler';
-import formDataFromJson from './formDataFromJson';
 import StoreAccessor from '../StoreAccessor';
-import { BACKEND_API_URL } from '../constants';
-
-function getAuthenticationToken() {
-  return StoreAccessor.store.getState().backendApiConnector.authenticationToken;
-}
-
-function getLanguageLocale() {
-  return StoreAccessor.store.getState().language.locale;
-}
 
 function signOut() {
   StoreAccessor.store.dispatch(nullifyAuthenticationCredentials());
-}
-
-export function fullUrl(path, params) {
-  return `${BACKEND_API_URL}${path}${stringifyParams(params)}`;
-}
-
-function stringifyParams(params) {
-  return params ? `?${queryString.stringify(params)}` : '';
 }
 
 function startProcessing(component) {
@@ -52,16 +33,9 @@ function stopProcessing(component) {
 export default function apiFetch(method, component, config) {
   startProcessing(component);
 
-  fetch(fullUrl(config.path, config.params), {
-    method,
-    body: formDataFromJson(config.body),
-    headers: {
-      Accept: 'application/json',
-      'Authentication-Token': getAuthenticationToken(),
-      'Language-Locale': getLanguageLocale(),
-    },
-  })
+  client[method](config)
     .then((result) => {
+      console.log(result);
       switch (result.status) {
         case 401:
           if (config.signIn) {
@@ -71,10 +45,13 @@ export default function apiFetch(method, component, config) {
           signOut();
           break;
       }
-      return result.json();
+      console.log(result);
+      return result.data;
     })
     .then(
       (result) => {
+        console.log('Success');
+        console.log(result);
         reportConnectionSucceeded();
         stopProcessing(component);
 
@@ -82,15 +59,17 @@ export default function apiFetch(method, component, config) {
           config.afterSuccess(result);
         }
       }, // handle success
-      () => {
-        if (config.disableRetry) {
-          reportConnectionRefused();
-          stopProcessing(component);
-        } else {
-          reportConnectionRefused(component, () =>
-            apiFetch(method, component, config),
-          );
-        }
-      }, // handle error
+      // (result) => {
+      //   console.log('Error');
+      //   console.log(result);
+      //   if (config.disableRetry) {
+      //     reportConnectionRefused();
+      //     stopProcessing(component);
+      //   } else {
+      //     reportConnectionRefused(component, () =>
+      //       apiFetch(method, component, config),
+      //     );
+      //   }
+      // }, // handle error
     );
 }
