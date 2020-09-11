@@ -6,43 +6,40 @@ import PropTypes from 'prop-types';
 import { SubmitButton, Note, Grid, TextField } from 'components/_ui-elements';
 
 import { setAuthenticationToken } from 'containers/ApiConnector/actions';
-import useApiFetcher from 'containers/ApiConnector/fetcher';
+import { useMutation } from 'containers/ApiConnector/apollo/fetchers';
 
 import messages from './messages';
 import { signedInNotify } from './notifications';
 import { AUTH_LOGIN_MUTATION } from './graphql';
 
 function Form({ intl, onSignInSuccess }) {
-  const fetcher = useApiFetcher();
-
   // Form state
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
+  const [login, { loading }] = useMutation(AUTH_LOGIN_MUTATION, {
+    variables: {
+      email,
+      password,
+    },
+    onCompleted: (data) => {
+      const feedback = data.authLogin;
+
+      if (feedback.token) {
+        onSignInSuccess(feedback.token);
+        signedInNotify();
+      } else {
+        setErrorMessage(
+          intl.formatMessage(messages.wrongSignInCredentialsError),
+        );
+      }
+    },
+  });
+
   const onSubmit = (event) => {
     event.preventDefault();
-
-    fetcher.mutate({
-      disableRetry: true,
-      signIn: true,
-      mutation: AUTH_LOGIN_MUTATION,
-      variables: {
-        email,
-        password,
-      },
-      afterSuccess: (result) => {
-        const feedback = result.authLogin;
-        if (feedback.token) {
-          onSignInSuccess(feedback.token);
-          signedInNotify();
-        } else {
-          setErrorMessage(
-            intl.formatMessage(messages.wrongSignInCredentialsError),
-          );
-        }
-      },
-    });
+    login();
   };
 
   return (
@@ -71,7 +68,7 @@ function Form({ intl, onSignInSuccess }) {
         />
       </Grid>
       <Grid>
-        <SubmitButton processing={fetcher.processing}>
+        <SubmitButton processing={loading}>
           <FormattedMessage {...messages.formButton} />
         </SubmitButton>
       </Grid>

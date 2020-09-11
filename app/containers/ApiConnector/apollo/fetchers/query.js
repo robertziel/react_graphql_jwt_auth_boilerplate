@@ -4,15 +4,12 @@ import { useQuery as useQueryApollo } from '@apollo/client';
 
 export function useQuery(query, options) {
   const isMounted = useIsMounted();
-  const [processing, setProcessing] = useState(false);
+
+  // const component = {
+  //   isMounted,
+  // };
 
   const apollo = useQueryApollo(query, options);
-
-  const component = {
-    isMounted,
-    processing,
-    setProcessing,
-  };
 
   return apollo;
 }

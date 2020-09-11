@@ -10,6 +10,7 @@ import { act } from 'react-dom/test-utils';
 
 import NotificationSystem from 'containers/NotificationsSystem';
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
+import { MockedProvider } from '@apollo/client/testing';
 
 import backendApiConnectorMessages from 'containers/ApiConnector/messages';
 import IntlCatcher from 'containers/LanguageProvider/IntlCatcher';
@@ -41,12 +42,16 @@ const mocks = () => [
 ];
 
 function mountWrapper() {
-  return mount(
+  wrapper = mount(
     <IntlProvider locale="en">
       <IntlCatcher>
         <Provider store={store}>
-          <NotificationSystem />
-          <Form />
+          <MockedProvider mocks={mocks()} addTypename={false}>
+            <div>
+              <NotificationSystem />
+              <Form />
+            </div>
+          </MockedProvider>
         </Provider>
       </IntlCatcher>
     </IntlProvider>,
@@ -55,10 +60,7 @@ function mountWrapper() {
 
 async function configureWrapper() {
   store = new ConfigureTestStore().store;
-  await act(async () => {
-    wrapper = mountWrapper();
-  });
-  return wrapper;
+  await mountWrapper();
 }
 
 function fillInAndSubmitForm() {
@@ -81,18 +83,22 @@ describe('<Form />', () => {
     });
 
     it('should save new authenticationToken in redux store', async () => {
-      await waitForExpect(() => {
-        expect(
-          store.getState().backendApiConnector.authenticationToken,
-        ).toEqual(authenticationToken);
+      await act(async () => {
+        waitForExpect(() => {
+          expect(
+            store.getState().backendApiConnector.authenticationToken,
+          ).toEqual(authenticationToken);
+        });
       });
     });
 
     it('should add signed in notification', async () => {
-      await waitForExpect(() => {
-        expect(wrapper.text()).toContain(
-          messages.signedInNotify.defaultMessage,
-        );
+      await act(async () => {
+        waitForExpect(() => {
+          expect(wrapper.text()).toContain(
+            messages.signedInNotify.defaultMessage,
+          );
+        });
       });
     });
   });
@@ -105,14 +111,16 @@ describe('<Form />', () => {
     });
 
     it('should render an error message without unauthorized notification', async () => {
-      await waitForExpect(() => {
-        wrapper.update();
-        expect(wrapper.contains(errorMessage)).toEqual(true);
-        expect(
-          wrapper.contains(
-            backendApiConnectorMessages.unauthorizedNotify.defaultMessage,
-          ),
-        ).toEqual(false);
+      await act(async () => {
+        waitForExpect(() => {
+          wrapper.update();
+          expect(wrapper.contains(errorMessage)).toEqual(true);
+          expect(
+            wrapper.contains(
+              backendApiConnectorMessages.unauthorizedNotify.defaultMessage,
+            ),
+          ).toEqual(false);
+        });
       });
     });
   });

@@ -2,17 +2,14 @@ import { useState } from 'react';
 import useIsMounted from 'react-is-mounted-hook';
 import { useMutation as useMutationApollo } from '@apollo/client';
 
-export function useMutation(mutation) {
+export function useMutation(mutation, options) {
   const isMounted = useIsMounted();
-  const [processing, setProcessing] = useState(false);
 
-  [mutate, options] = useMutationApollo(mutation);
+  // const component = {
+  //   isMounted,
+  // };
 
-  const component = {
-    isMounted,
-    processing,
-    setProcessing,
-  };
+  const apollo = useMutationApollo(mutation, options);
 
-  return [mutate, options];
+  return apollo;
 }

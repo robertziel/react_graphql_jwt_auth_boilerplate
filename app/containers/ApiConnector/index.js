@@ -29,11 +29,9 @@ export class ApiConnector extends Component {
 
   authenticatedContent() {
     return (
-      <ApolloProvider client={apolloClient}>
-        <CurrentUserLoader>
-          {React.Children.only(this.props.children)}
-        </CurrentUserLoader>
-      </ApolloProvider>
+      <CurrentUserLoader>
+        {React.Children.only(this.props.children)}
+      </CurrentUserLoader>
     );
   }
 
@@ -43,11 +41,13 @@ export class ApiConnector extends Component {
 
   render() {
     return (
-      <InternetConnectionDetector>
-        {this.props.authenticationToken
-          ? this.authenticatedContent()
-          : this.unauthenticatedContent()}
-      </InternetConnectionDetector>
+      <ApolloProvider client={apolloClient}>
+        <InternetConnectionDetector>
+          {this.props.authenticationToken
+            ? this.authenticatedContent()
+            : this.unauthenticatedContent()}
+        </InternetConnectionDetector>
+      </ApolloProvider>
     );
   }
 }
