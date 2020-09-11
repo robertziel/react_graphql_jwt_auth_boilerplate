@@ -39,10 +39,9 @@ export default function configureStore(initialState = {}, history) {
 
   const enhancers = [applyMiddleware(...middlewares)];
 
-  const filterApiConnector = createBlacklistFilter(
-    'backendApiConnector',
-    ['currentUser'],
-  );
+  const filterApiConnector = createBlacklistFilter('backendApiConnector', [
+    'currentUser',
+  ]);
 
   const persistConfig = {
     key: 'root',

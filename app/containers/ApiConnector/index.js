@@ -18,7 +18,7 @@ import InternetConnectionDetector from 'containers/InternetConnectionDetector';
 import CurrentUserLoader from './CurrentUserLoader';
 import { authenticationTokenSelector } from './selectors';
 import StoreAccessor from './StoreAccessor';
-import apolloClient from './apollo/client.js';
+import apolloClient from './apollo/client';
 
 export class ApiConnector extends Component {
   constructor(props) {

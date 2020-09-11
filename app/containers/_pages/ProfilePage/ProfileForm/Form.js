@@ -9,7 +9,8 @@ import {
   TextField,
 } from 'components/_ui-elements';
 
-import useApiFetcher from 'containers/ApiConnector/fetcher';
+import { useMutation } from 'containers/ApiConnector/apollo/fetchers';
+import { PROFILE_UPDATE_MUTATION } from './graphql';
 
 import messages from './messages';
 import {
@@ -19,8 +20,6 @@ import {
 import prepareActiveModelErrors from './prepareActiveModelErrors';
 
 function Form({ intl, user }) {
-  const fetcher = useApiFetcher();
-
   // Form state
   const [errorMessages, setErrorMessages] = useState({});
   const [firstName, setFirstName] = useState(user.firstName);
@@ -29,36 +28,30 @@ function Form({ intl, user }) {
   const [password, setPassword] = useState(null);
   const [passwordConfirmation, setPasswordConfirmation] = useState(null);
 
+  const [profileUpdate, { loading }] = useMutation(PROFILE_UPDATE_MUTATION, {
+    // disableRetry: true,
+    variables: {
+      email,
+      firstName,
+      lastName,
+      password,
+      passwordConfirmation,
+    },
+    onCompleted: (data) => {
+      const feedback = data.profileUpdate;
+      if (feedback.success) {
+        profileUpdateSucceededNotify();
+        setErrorMessages({});
+      } else {
+        setErrorMessages(prepareActiveModelErrors(feedback.errors));
+        profileUpdateFailedNotify();
+      }
+    },
+  });
+
   const onSubmit = (event) => {
     event.preventDefault();
-
-    fetcher.mutate({
-      disableRetry: true,
-      query: `
-        mutation profileUpdate($email: String, $firstName: String, $lastName: String, $password: String, $passwordConfirmation: String){
-          profileUpdate(email: $email, firstName: $firstName, lastName: $lastName, password: $password, passwordConfirmation: $passwordConfirmation){
-            success errors { message path }
-          }
-        }
-      `,
-      variables: {
-        email,
-        firstName,
-        lastName,
-        password,
-        passwordConfirmation,
-      },
-      afterSuccess: (result) => {
-        const feedback = result.profileUpdate;
-        if (feedback.success) {
-          profileUpdateSucceededNotify();
-          setErrorMessages({});
-        } else {
-          setErrorMessages(prepareActiveModelErrors(feedback.errors));
-          profileUpdateFailedNotify();
-        }
-      },
-    });
+    profileUpdate();
   };
 
   const passwordErrorMessage = () => {
@@ -132,7 +125,7 @@ function Form({ intl, user }) {
         />
       </Grid>
       <Grid>
-        <SubmitButton processing={fetcher.processing}>
+        <SubmitButton processing={loading}>
           <FormattedMessage {...messages.formButton} />
         </SubmitButton>
       </Grid>

@@ -12,9 +12,7 @@ import SignInPage from '../Loadable';
 
 // Mock Form required by SignInPage
 /* eslint-disable react/prop-types */
-jest.mock('containers/_authPages/SignInPage/Form', () => () => (
-  <div>Form</div>
-));
+jest.mock('containers/_authPages/SignInPage/Form', () => () => <div>Form</div>);
 /* eslint-enable */
 
 function mountWrapper() {

@@ -3,31 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { Paper } from 'components/_ui-elements';
 
 import FetchedContent from 'containers/FetchedContent';
-import useApiFetcher from 'containers/ApiConnector/fetcher';
+import { useQuery } from 'containers/ApiConnector/apollo/fetchers';
+import { PROFILE_QUERY } from './graphql';
 
 import Form from './Form';
 import Wrapper from './Wrapper';
 
-function ProfileForm() {
-  const fetcher = useApiFetcher();
-
+function ProfilePage() {
   const [user, setUser] = useState();
 
-  const fetchData = () => {
-    fetcher.query({
-      query: `
-        query { profile { firstName lastName email }}
-      `,
-      afterSuccess: (result) => setUser(result.profile),
-    });
-  };
-
-  useEffect(() => fetchData(), []);
+  const { loading } = useQuery(PROFILE_QUERY, {
+    onCompleted: (data) => setUser(data.profile),
+  });
 
   return (
     <Wrapper>
       <Paper>
-        <FetchedContent processing={user === undefined || fetcher.processing}>
+        <FetchedContent processing={user === undefined || loading}>
           <Form user={user} />
         </FetchedContent>
       </Paper>
@@ -35,4 +27,4 @@ function ProfileForm() {
   );
 }
 
-export default ProfileForm;
+export default ProfilePage;
