@@ -10,7 +10,6 @@ import { act } from 'react-dom/test-utils';
 
 import NotificationSystem from 'containers/NotificationsSystem';
 import IntlCatcher from 'containers/LanguageProvider/IntlCatcher';
-import loadApiFetchMock from 'testsHelpers/loadApiFetchMock';
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
 
 import {
@@ -23,7 +22,6 @@ import messages from '../messages';
 
 const authenticationToken = 'a token';
 const currentUser = { name: 'User' };
-const submitPath = '/auth/sign_out';
 
 let store;
 let wrapper;
@@ -53,15 +51,6 @@ function clickButton() {
   wrapper.find('button[type="submit"]').simulate('submit');
 }
 
-const fetchMock = () => {
-  loadApiFetchMock({
-    method: 'DELETE',
-    path: submitPath,
-    responseBody: {},
-    status: 200,
-  });
-};
-
 beforeEach(() => {
   configureWrapper();
   act(() => {
@@ -73,8 +62,6 @@ beforeEach(() => {
 describe('<SignOutButton />', () => {
   context('onClick', () => {
     context('when fetch succeeded', () => {
-      fetchMock();
-
       it('should nullify backendApiConnector credentials', async () => {
         clickButton();
 
