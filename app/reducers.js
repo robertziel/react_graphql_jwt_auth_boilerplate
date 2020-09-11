@@ -7,7 +7,7 @@ import { connectRouter } from 'connected-react-router';
 
 import history from 'utils/history';
 
-import backendApiConnectorReducer from 'containers/BackendApiConnector/reducer';
+import backendApiConnectorReducer from 'containers/ApiConnector/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import sidebarReducer from 'components/Sidebar/reducer';
 

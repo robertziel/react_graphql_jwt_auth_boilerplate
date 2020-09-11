@@ -1,5 +1,5 @@
 /*
- * BackendApiConnector
+ * ApiConnector
  *
  * This component is an intermediary between application and API
  *
@@ -20,7 +20,7 @@ import { authenticationTokenSelector } from './selectors';
 import StoreAccessor from './StoreAccessor';
 import apolloClient from './apollo/client.js';
 
-export class BackendApiConnector extends Component {
+export class ApiConnector extends Component {
   constructor(props) {
     super(props);
 
@@ -61,10 +61,10 @@ function mapStateToProps() {
   );
 }
 
-BackendApiConnector.propTypes = {
+ApiConnector.propTypes = {
   authenticationToken: PropTypes.string,
   children: PropTypes.node.isRequired,
   store: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(BackendApiConnector);
+export default connect(mapStateToProps)(ApiConnector);

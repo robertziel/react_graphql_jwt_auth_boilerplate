@@ -9,12 +9,12 @@ import { mount } from 'enzyme';
 
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
 
-import BackendApiConnector from '../index';
+import ApiConnector from '../index';
 import { setAuthenticationToken } from '../actions';
 
-// Mock CurrentUserLoader required by BackendApiConnector
+// Mock CurrentUserLoader required by ApiConnector
 /* eslint-disable react/prop-types */
-jest.mock('containers/BackendApiConnector/CurrentUserLoader', () => (props) => (
+jest.mock('containers/ApiConnector/CurrentUserLoader', () => (props) => (
   <div>{props.children}</div>
 ));
 /* eslint-enable */
@@ -41,9 +41,9 @@ function mountWrapper() {
   return mount(
     <IntlProvider locale="en">
       <Provider store={store}>
-        <BackendApiConnector store={store}>
+        <ApiConnector store={store}>
           <div className="authorized-content"></div>
-        </BackendApiConnector>
+        </ApiConnector>
       </Provider>
     </IntlProvider>,
   );
@@ -57,7 +57,7 @@ beforeAll(() => {
   wrapper = mountWrapper();
 });
 
-describe('<BackendApiConnector />', () => {
+describe('<ApiConnector />', () => {
   context('when authenticationToken changed to null', () => {
     beforeAll(() => {
       changeAuthenticationToken({ fromValue: token, toValue: null });

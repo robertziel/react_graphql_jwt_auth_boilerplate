@@ -7,8 +7,8 @@ import FontAwesome from 'react-fontawesome';
 import { colors } from 'styles/constants';
 import { SubmitButton } from 'components/_ui-elements';
 
-import { nullifyAuthenticationCredentials } from 'containers/BackendApiConnector/actions';
-import useApiFetcher from 'containers/BackendApiConnector/fetcher';
+import { nullifyAuthenticationCredentials } from 'containers/ApiConnector/actions';
+import useApiFetcher from 'containers/ApiConnector/fetcher';
 
 import { signedOutNotify } from './notifications';
 import Wrapper from './Wrapper';

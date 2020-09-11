@@ -1,12 +1,12 @@
 /*
- * BackendApiConnector's fetchers provide functions used to connect to API backend
+ * ApiConnector's fetchers provide functions used to connect to API backend
  * All settings like BACKEND_API_URL, authenticationToken, error response handling etc.
  * are handled under the hood here so that anywhere else in the project can be
  * used one of few simple exported functions requiring component, path, params, and afterSuccess callback.
  *
  */
 
-import { nullifyAuthenticationCredentials } from 'containers/BackendApiConnector/actions';
+import { nullifyAuthenticationCredentials } from 'containers/ApiConnector/actions';
 import client from '../apollo/client';
 
 import { unauthorizedNotify } from '../notifications';

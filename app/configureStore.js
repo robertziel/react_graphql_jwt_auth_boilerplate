@@ -39,7 +39,7 @@ export default function configureStore(initialState = {}, history) {
 
   const enhancers = [applyMiddleware(...middlewares)];
 
-  const filterBackendApiConnector = createBlacklistFilter(
+  const filterApiConnector = createBlacklistFilter(
     'backendApiConnector',
     ['currentUser'],
   );
@@ -47,7 +47,7 @@ export default function configureStore(initialState = {}, history) {
   const persistConfig = {
     key: 'root',
     storage,
-    transforms: [filterBackendApiConnector],
+    transforms: [filterApiConnector],
   };
 
   const persistedReducer = persistReducer(persistConfig, createReducer());

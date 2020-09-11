@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Paper } from 'components/_ui-elements';
 
 import FetchedContent from 'containers/FetchedContent';
-import useApiFetcher from 'containers/BackendApiConnector/fetcher';
+import useApiFetcher from 'containers/ApiConnector/fetcher';
 
 import Form from './Form';
 import Wrapper from './Wrapper';

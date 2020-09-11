@@ -1,6 +1,6 @@
 import { memoryHistory } from 'react-router-dom';
 import configureStore from 'configureStore';
-import StoreAccessor from 'containers/BackendApiConnector/StoreAccessor';
+import StoreAccessor from 'containers/ApiConnector/StoreAccessor';
 
 export default function ConfigureTestStore() {
   const confuguredStore = configureStore({}, memoryHistory);

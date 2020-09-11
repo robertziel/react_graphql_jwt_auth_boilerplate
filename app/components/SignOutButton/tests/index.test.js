@@ -16,7 +16,7 @@ import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
 import {
   setAuthenticationToken,
   setCurrentUser,
-} from 'containers/BackendApiConnector/actions';
+} from 'containers/ApiConnector/actions';
 
 import SignOutButton from '../index';
 import messages from '../messages';

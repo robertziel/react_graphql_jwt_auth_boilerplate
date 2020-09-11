@@ -1,6 +1,6 @@
 import { defineMessages } from 'react-intl';
 
-export const scope = 'app.containers.BackendApiConnector';
+export const scope = 'app.containers.ApiConnector';
 
 const messages = defineMessages({
   connectionRefusedNotify: {

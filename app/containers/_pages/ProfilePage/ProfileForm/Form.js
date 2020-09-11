@@ -9,7 +9,7 @@ import {
   TextField,
 } from 'components/_ui-elements';
 
-import useApiFetcher from 'containers/BackendApiConnector/fetcher';
+import useApiFetcher from 'containers/ApiConnector/fetcher';
 
 import messages from './messages';
 import {

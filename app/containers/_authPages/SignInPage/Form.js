@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 
 import { SubmitButton, Note, Grid, TextField } from 'components/_ui-elements';
 
-import { setAuthenticationToken } from 'containers/BackendApiConnector/actions';
-import useApiFetcher from 'containers/BackendApiConnector/fetcher';
+import { setAuthenticationToken } from 'containers/ApiConnector/actions';
+import useApiFetcher from 'containers/ApiConnector/fetcher';
 
 import messages from './messages';
 import { signedInNotify } from './notifications';

@@ -15,7 +15,7 @@ import history from 'utils/history';
 // Import root app
 import App from 'containers/App';
 
-import BackendApiConnector from 'containers/BackendApiConnector';
+import ApiConnector from 'containers/ApiConnector';
 import LanguageProvider from 'containers/LanguageProvider';
 import NotificationSystem from 'containers/NotificationsSystem';
 
@@ -34,9 +34,9 @@ export default function SetupContent(props) {
         <LanguageProvider messages={props.messages}>
           <ConnectedRouter history={history}>
             <NotificationSystem />
-            <BackendApiConnector store={store}>
+            <ApiConnector store={store}>
               <App />
-            </BackendApiConnector>
+            </ApiConnector>
             <GlobalStyle />
           </ConnectedRouter>
         </LanguageProvider>

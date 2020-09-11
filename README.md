@@ -17,11 +17,11 @@ npm start
 ```
 
 ## API FETCHERS
- A simple fetching hook allows you to focus on what is the most important. Only path, body and afterSuccess callback are required to define a request to API anywhere in the project. All necessary settings and errors handling are handled under the hood and kept DRY in one place. Check folder: `app/containers/BackendApiConnector/fetcher`
+ A simple fetching hook allows you to focus on what is the most important. Only path, body and afterSuccess callback are required to define a request to API anywhere in the project. All necessary settings and errors handling are handled under the hood and kept DRY in one place. Check folder: `app/containers/ApiConnector/fetcher`
 
 1. Use fetcher hook in your component:
 ```js
-import useApiFetcher from 'containers/BackendApiConnector/fetcher';
+import useApiFetcher from 'containers/ApiConnector/fetcher';
 const fetcher = useApiFetcher();
 ```
 To make code clean it is better to use ***one fetcher per component***.
@@ -64,7 +64,7 @@ To make code clean it is better to use ***one fetcher per component***.
 
 ## AUTHENTICATION
 * all authentication related containers are kept in `app/containers/_authPages`
-* `app/containers/BackendApiConnector` is responsible for:
+* `app/containers/ApiConnector` is responsible for:
   * handling all requests to API
     * API URL is set in `.env` as `BACKEND_API_URL`
   * keeping signed in currentUser data and authenticationToken:
@@ -73,7 +73,7 @@ To make code clean it is better to use ***one fetcher per component***.
     * when any API request has authentication problem then:
       * authenticationToken is set to null
       * currentUser is set to null
-      * when authenticationToken is null SignInPage is rendered ( handled in `app/containers/BackendApiConnector/index.js` )
+      * when authenticationToken is null SignInPage is rendered ( handled in `app/containers/ApiConnector/index.js` )
 
 ## Docker
 
@@ -155,6 +155,6 @@ Example form can be found in `containers/_authPages/SignInPage/Form.js`
 
 
 ## TO DO:
-* ~~BUG - `app/containers/BackendApiConnector/connectionRefusedHandler.js`:~~
+* ~~BUG - `app/containers/ApiConnector/connectionRefusedHandler.js`:~~
   * ~~should refetch on click or after time, only if refetch queue is not empty (currently refetch is handled when notification disappears)~~
   * ~~Fix issue with queued refetch related to unmounted components, should be ignored~~

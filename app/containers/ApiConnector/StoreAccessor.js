@@ -1,5 +1,5 @@
 /*
- * StateAccessor keeps store assigned to BackendApiConnector in props
+ * StateAccessor keeps store assigned to ApiConnector in props
  * To access store call StateAccessor.store
  */
 

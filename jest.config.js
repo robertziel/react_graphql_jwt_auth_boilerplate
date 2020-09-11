@@ -8,7 +8,7 @@ module.exports = {
     '!app/styles/global-styles.js',
     '!app/*/*/Loadable.{js,jsx}',
     '!app/utils/dataUrlToFile.js',
-    '!app/containers/BackendApiConnector/fetcher/formDataFromJson.js',
+    '!app/containers/ApiConnector/fetcher/formDataFromJson.js',
   ],
   coverageThreshold: {
     global: {
