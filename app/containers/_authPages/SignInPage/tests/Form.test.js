@@ -22,7 +22,6 @@ const authenticationToken = 'a token';
 const errorMessage = 'Error message';
 const email = 'test@gmail.com';
 const password = '12345678';
-const submitPath = '/auth/sign_in';
 
 let store;
 let wrapper;

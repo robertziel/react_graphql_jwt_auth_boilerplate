@@ -29,7 +29,9 @@ function Form({ intl, user }) {
   const [passwordConfirmation, setPasswordConfirmation] = useState(null);
 
   const [profileUpdate, { loading }] = useMutation(PROFILE_UPDATE_MUTATION, {
-    // disableRetry: true,
+    context: {
+      disableRetry: true,
+    },
     variables: {
       email,
       firstName,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { SwappingSquaresSpinner } from 'react-epic-spinners';
@@ -8,15 +8,15 @@ import { colors } from 'styles/constants';
 import { SubmitButton } from 'components/_ui-elements';
 
 import { nullifyAuthenticationCredentials } from 'containers/ApiConnector/actions';
-import useApiFetcher from 'containers/ApiConnector/fetcher';
 
 import { signedOutNotify } from './notifications';
 import Wrapper from './Wrapper';
 
 function SignOutButton({ onSignOutSuccess }) {
-  const fetcher = useApiFetcher();
+  const [processing, setProcessing] = useState(false);
 
   const signOut = (event) => {
+    setProcessing(true);
     event.preventDefault();
 
     onSignOutSuccess();
@@ -27,7 +27,7 @@ function SignOutButton({ onSignOutSuccess }) {
       <form onSubmit={signOut}>
         <SubmitButton
           navbar
-          processing={fetcher.processing}
+          processing={processing}
           spinner={<SwappingSquaresSpinner color={colors.main} size={40} />}
         >
           <FontAwesome name="power-off" />

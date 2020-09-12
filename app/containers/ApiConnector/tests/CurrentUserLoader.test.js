@@ -17,7 +17,6 @@ import CurrentUserLoader from '../CurrentUserLoader';
 
 const authenticationToken = 'a token';
 const currentUser = { name: 'User' };
-const submitPath = '/current_user';
 
 const mockResponse = currentUser;
 const mocks = () => [

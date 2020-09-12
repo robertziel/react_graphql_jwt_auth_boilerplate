@@ -17,8 +17,6 @@ import { PROFILE_QUERY, PROFILE_UPDATE_MUTATION } from '../graphql';
 import ProfilePage from '../index';
 import messages from '../messages';
 
-const indexPath = '/profile';
-const updatePath = indexPath;
 const email = 'test@gmail.com';
 const username = 'username';
 const userObject = { email, username };

@@ -10,45 +10,45 @@ import Hamburger from 'components/Hamburger/index';
 import { toggleSidebar } from './actions';
 import { sidebarToggleSelector } from './selectors';
 
-function SidebarLogo(props) {
-  const Div = styled.div`
-    height: 60px;
-    background: #fafbfc;
+const Div = styled.div`
+  height: 60px;
+  background: #fafbfc;
 
-    .logo-section {
-      width: 200px;
-      float: left;
+  .logo-section {
+    width: 200px;
+    float: left;
 
-      a {
-        .logo {
-          position: relative;
-          height: 100%;
-          color: #000000;
-          font-size: 30px;
+    a {
+      .logo {
+        position: relative;
+        height: 100%;
+        color: #000000;
+        font-size: 30px;
+        font-weight: 300;
+        padding-left: 15px;
+        padding-top: 8px;
+
+        span {
+          font-size: 10px;
+          position: absolute;
+          top: 40px;
+          left: 129px;
+          color: ${colors.main};
           font-weight: 300;
-          padding-left: 15px;
-          padding-top: 8px;
-
-          span {
-            font-size: 10px;
-            position: absolute;
-            top: 40px;
-            left: 129px;
-            color: ${colors.main};
-            font-weight: 300;
-          }
         }
       }
     }
+  }
 
-    .hamburger {
-      float: right;
-      height: 60px;
-      width: 60px;
-      padding-top: 8px;
-    }
-  `;
+  .hamburger {
+    float: right;
+    height: 60px;
+    width: 60px;
+    padding-top: 8px;
+  }
+`;
 
+function SidebarLogo(props) {
   return (
     <Div>
       <div className="logo-section">

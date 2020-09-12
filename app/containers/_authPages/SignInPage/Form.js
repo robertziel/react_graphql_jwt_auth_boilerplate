@@ -19,6 +19,10 @@ function Form({ intl, onSignInSuccess }) {
   const [password, setPassword] = useState(null);
 
   const [login, { loading }] = useMutation(AUTH_LOGIN_MUTATION, {
+    context: {
+      disableRetry: true,
+      // signIn: true,
+    },
     variables: {
       email,
       password,

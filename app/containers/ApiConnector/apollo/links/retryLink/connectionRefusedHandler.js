@@ -2,7 +2,7 @@ import dig from 'object-dig';
 import {
   connectionRefusedAutodismissableNotify,
   connectionRefusedNotify,
-} from '../notifications';
+} from '../../../notifications';
 
 let notification;
 

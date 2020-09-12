@@ -15,7 +15,7 @@ import {
   reportConnectionSucceeded,
 } from '../connectionRefusedHandler';
 
-import messages from '../../messages';
+import messages from '../../../../messages';
 
 const connectionRefusedNotifySelector = notificationMessageSelector(
   messages.connectionRefusedNotify.defaultMessage,

@@ -1,36 +1,11 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { createHttpLink } from 'apollo-link-http';
-import { setContext } from 'apollo-link-context';
-import fetch from 'unfetch';
-import { BACKEND_API_URL } from '../constants';
-import StoreAccessor from '../StoreAccessor';
+import { ApolloLink } from 'apollo-link';
+import { contextLink, errorLink, httpLink, retryLink } from './links';
 
-function getAuthenticationToken() {
-  return StoreAccessor.store.getState().backendApiConnector.authenticationToken;
-}
-
-// function getLanguageLocale() {
-//   return StoreAccessor.store.getState().language.locale;
-// }
-
-const httpLink = createHttpLink({
-  uri: BACKEND_API_URL,
-  credentials: 'include',
-  fetch,
-});
-
-const authLink = setContext((_, { headers }) => {
-  const token = getAuthenticationToken();
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-    },
-  };
-});
+const link = ApolloLink.from([retryLink, errorLink, contextLink, httpLink]);
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link,
   cache: new InMemoryCache(),
 });
 

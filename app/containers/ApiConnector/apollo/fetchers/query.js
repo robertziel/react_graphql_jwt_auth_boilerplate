@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import useIsMounted from 'react-is-mounted-hook';
+// import useIsMounted from 'react-is-mounted-hook';
 import { useQuery as useQueryApollo } from '@apollo/client';
 
 export function useQuery(query, options) {
-  const isMounted = useIsMounted();
+  // const isMounted = useIsMounted();
 
   // const component = {
   //   isMounted,
