@@ -14,6 +14,7 @@ import history from 'utils/history';
 
 // Import root app
 import App from 'containers/App';
+import AuthApp from 'containers/AuthApp';
 
 import ApiConnector from 'containers/ApiConnector';
 import LanguageProvider from 'containers/LanguageProvider';
@@ -34,7 +35,7 @@ export default function SetupContent(props) {
         <LanguageProvider messages={props.messages}>
           <ConnectedRouter history={history}>
             <NotificationSystem />
-            <ApiConnector store={store}>
+            <ApiConnector store={store} unauthenticatedContent={<AuthApp />}>
               <App />
             </ApiConnector>
             <GlobalStyle />

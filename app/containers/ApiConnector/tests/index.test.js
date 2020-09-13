@@ -22,7 +22,7 @@ jest.mock('containers/ApiConnector/CurrentUserLoader', () => (props) => (
 const token = 'a token';
 
 function expectToRenderProperContent(options) {
-  expect(wrapper.exists('SignInPage')).toBe(!options.authorized);
+  expect(wrapper.exists('.authorization-content')).toBe(!options.authorized);
   expect(wrapper.exists('.authorized-content')).toBe(options.authorized);
 }
 
@@ -41,7 +41,10 @@ function mountWrapper() {
   return mount(
     <IntlProvider locale="en">
       <Provider store={store}>
-        <ApiConnector store={store}>
+        <ApiConnector
+          store={store}
+          unauthenticatedContent={<div className="authorization-content"></div>}
+        >
           <div className="authorized-content"></div>
         </ApiConnector>
       </Provider>

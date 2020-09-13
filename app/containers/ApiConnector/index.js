@@ -11,8 +11,6 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { ApolloProvider } from '@apollo/client';
 
-import SignInPage from 'containers/_authPages/SignInPage/Loadable';
-
 import InternetConnectionDetector from 'containers/InternetConnectionDetector';
 
 import CurrentUserLoader from './CurrentUserLoader';
@@ -23,6 +21,7 @@ import apolloClient from './apollo/client';
 export class ApiConnector extends Component {
   constructor(props) {
     super(props);
+    this.props = props;
 
     StoreAccessor.store = props.store;
   }
@@ -36,7 +35,7 @@ export class ApiConnector extends Component {
   }
 
   unauthenticatedContent() {
-    return <SignInPage />;
+    return this.props.unauthenticatedContent;
   }
 
   render() {
@@ -65,6 +64,7 @@ ApiConnector.propTypes = {
   authenticationToken: PropTypes.string,
   children: PropTypes.node.isRequired,
   store: PropTypes.object.isRequired,
+  unauthenticatedContent: PropTypes.node.isRequired,
 };
 
 export default connect(mapStateToProps)(ApiConnector);
