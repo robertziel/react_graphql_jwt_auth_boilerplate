@@ -114,7 +114,6 @@ export default class RetryableOperation {
   }
 
   try() {
-    console.log('TRY');
     this.currentSubscription = this.nextLink(this.operation).subscribe({
       next: this.onNext,
       error: this.onError,

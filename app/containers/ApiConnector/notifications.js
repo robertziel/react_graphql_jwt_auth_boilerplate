@@ -51,12 +51,3 @@ export function connectionRefusedNotify(removeNotificationMethod) {
     remove: () => store.removeNotification(notification),
   };
 }
-
-export function unauthorizedNotify() {
-  store.addNotification({
-    ...defaultSettings,
-    title: getIntl().formatMessage(messages.unauthorizedNotifyTitle),
-    message: getIntl().formatMessage(messages.unauthorizedNotify),
-    type: 'info',
-  });
-}

@@ -21,18 +21,6 @@ const messages = defineMessages({
       Cannot connect to the server. Click here to try again.
     `,
   },
-  unauthorizedNotify: {
-    id: `${scope}.fetchers.notifications.unauthorizedNotify`,
-    defaultMessage: `
-      Please sign in to continue.
-    `,
-  },
-  unauthorizedNotifyTitle: {
-    id: `${scope}.fetchers.notifications.unauthorizedNotifyTitle`,
-    defaultMessage: `
-      Unauthorized
-    `,
-  },
 });
 
 export default messages;

@@ -21,7 +21,6 @@ function Form({ intl, onSignInSuccess }) {
   const [login, { loading }] = useMutation(AUTH_LOGIN_MUTATION, {
     context: {
       disableRetry: true,
-      // signIn: true,
     },
     variables: {
       email,
