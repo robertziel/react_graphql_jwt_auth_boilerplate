@@ -12,9 +12,9 @@ export const PROFILE_QUERY = gql`
 
 export const PROFILE_UPDATE_MUTATION = gql`
   mutation profileUpdate(
-    $email: String
-    $firstName: String
-    $lastName: String
+    $email: String!
+    $firstName: String!
+    $lastName: String!
     $password: String
     $passwordConfirmation: String
   ) {

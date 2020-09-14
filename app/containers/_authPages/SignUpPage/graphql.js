@@ -2,11 +2,11 @@ import { gql } from '@apollo/client';
 
 export const SIGN_UP_MUTATION = gql`
   mutation authSignUp(
-    $email: String
-    $firstName: String
-    $lastName: String
-    $password: String
-    $passwordConfirmation: String
+    $email: String!
+    $firstName: String!
+    $lastName: String!
+    $password: String!
+    $passwordConfirmation: String!
   ) {
     authSignUp(
       email: $email

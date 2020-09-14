@@ -64,6 +64,7 @@ function Form({ intl }) {
           variant="outlined"
           helperText={errorMessages.attributes_firstName}
           error={!!errorMessages.attributes_firstName}
+          required
         />
       </Grid>
       <Grid>
@@ -76,6 +77,7 @@ function Form({ intl }) {
           variant="outlined"
           helperText={errorMessages.attributes_lastName}
           error={!!errorMessages.attributes_lastName}
+          required
         />
       </Grid>
       <Grid>
@@ -88,6 +90,7 @@ function Form({ intl }) {
           variant="outlined"
           helperText={errorMessages.attributes_email}
           error={!!errorMessages.attributes_email}
+          required
         />
       </Grid>
       <br />
@@ -102,6 +105,7 @@ function Form({ intl }) {
           variant="outlined"
           helperText={errorMessages.attributes_password}
           error={!!errorMessages.attributes_password}
+          required
         />
       </Grid>
       <Grid>
@@ -113,6 +117,7 @@ function Form({ intl }) {
           variant="outlined"
           helperText={errorMessages.attributes_passwordConfirmation}
           error={!!errorMessages.attributes_passwordConfirmation}
+          required
         />
       </Grid>
       <Grid>
