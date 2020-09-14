@@ -22,7 +22,7 @@ function AuthApp() {
         <Route exact path="/login" component={SignInPage} />
         <Route exact path="/sign-up" component={SignUpPage} />
         <Route>
-          <Redirect to="/sign-in" />
+          <Redirect to="/login" />
         </Route>
       </Switch>
       <Footer />
