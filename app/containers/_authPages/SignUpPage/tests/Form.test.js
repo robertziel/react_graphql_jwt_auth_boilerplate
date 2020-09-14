@@ -4,6 +4,8 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
+import { ConnectedRouter } from 'connected-react-router';
+import history from 'utils/history';
 
 import { mount } from 'enzyme';
 import waitForExpect from 'wait-for-expect';
@@ -58,12 +60,14 @@ function mountWrapper(mockResponse) {
     <IntlProvider locale="en">
       <IntlCatcher>
         <Provider store={store}>
-          <MockedProvider mocks={mocks(mockResponse)} addTypename={false}>
-            <div>
-              <NotificationSystem />
-              <Form />
-            </div>
-          </MockedProvider>
+          <ConnectedRouter history={history}>
+            <MockedProvider mocks={mocks(mockResponse)} addTypename={false}>
+              <div>
+                <NotificationSystem />
+                <Form />
+              </div>
+            </MockedProvider>
+          </ConnectedRouter>
         </Provider>
       </IntlCatcher>
     </IntlProvider>,
@@ -111,6 +115,11 @@ describe('<Form />', () => {
           );
         });
       });
+    });
+
+    it('should redirect to /login', async () => {
+      await fillInAndSubmitForm();
+      expect(history.location.pathname).toEqual('/login');
     });
   });
 

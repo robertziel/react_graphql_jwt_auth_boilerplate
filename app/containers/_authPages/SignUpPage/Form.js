@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 
 import {
   Divider,
@@ -16,6 +17,7 @@ import messages from './messages';
 import { signedUpNotify, signUpFailedNotify } from './notifications';
 
 function Form({ intl }) {
+  const history = useHistory();
   // Form state
   const [errorMessages, setErrorMessages] = useState({});
   const [firstName, setFirstName] = useState(null);
@@ -40,12 +42,17 @@ function Form({ intl }) {
       if (feedback.success) {
         signedUpNotify();
         setErrorMessages({});
+        redirectAfterSuccess();
       } else {
         signUpFailedNotify();
         setErrorMessages(prepareActiveModelErrors(feedback.errors));
       }
     },
   });
+
+  const redirectAfterSuccess = () => {
+    history.push('/login');
+  };
 
   const onSubmit = (event) => {
     event.preventDefault();

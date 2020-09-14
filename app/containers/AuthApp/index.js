@@ -19,7 +19,7 @@ function AuthApp() {
   return (
     <ContentWrapper>
       <Switch>
-        <Route exact path="/sign-in" component={SignInPage} />
+        <Route exact path="/login" component={SignInPage} />
         <Route exact path="/sign-up" component={SignUpPage} />
         <Route>
           <Redirect to="/sign-in" />
