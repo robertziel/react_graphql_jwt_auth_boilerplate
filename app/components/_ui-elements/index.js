@@ -3,6 +3,7 @@ export * from './Container';
 export * from './Dialog';
 export * from './Divider';
 export * from './LinearProgress';
+export * from './Link';
 export * from './Note';
 export * from './Grid';
 export * from './H1';

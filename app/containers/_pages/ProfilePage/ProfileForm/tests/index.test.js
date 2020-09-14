@@ -12,29 +12,33 @@ import IntlCatcher from 'containers/LanguageProvider/IntlCatcher';
 import NotificationSystem from 'containers/NotificationsSystem';
 import ConfigureTestStore from 'testsHelpers/ConfigureTestStore';
 import { MockedProvider } from '@apollo/client/testing';
-import { PROFILE_QUERY, PROFILE_UPDATE_MUTATION } from '../graphql';
+import prepareActiveModelErrors from 'utils/prepareActiveModelErrors';
 
 import ProfilePage from '../index';
 import messages from '../messages';
+import { PROFILE_QUERY, PROFILE_UPDATE_MUTATION } from '../graphql';
 
-const email = 'test@gmail.com';
-const username = 'username';
-const userObject = { email, username };
-const emailUpdated = 'test2@gmail.com';
-const usernameUpdated = 'username2';
-const passwordUpdated = 'newPassword';
-const passwordConfirmationUpdated = passwordUpdated;
+const userObject = {
+  email: 'test@gmail.com',
+  firstName: 'first name',
+  lastName: 'last name',
+};
+const userObjectUpdated = {
+  email: 'test2@gmail.com',
+  firstName: 'new first name',
+  lastName: 'new last name',
+  password: 'new pass',
+  passwordConfirmation: 'new pass',
+};
 
-const mockResponse = { profile: { email, username } };
-let mockResponseUpdate = null;
-const mocks = () => [
+const mocks = (mockResponseUpdate) => [
   {
     request: {
       query: PROFILE_QUERY,
     },
     result: {
       data: {
-        profile: mockResponse,
+        profile: userObject,
       },
     },
   },
@@ -51,32 +55,29 @@ const mocks = () => [
   },
 ];
 
-const userObjectUpdated = {
-  email: emailUpdated,
-  password: passwordUpdated,
-  password_confirmation: passwordConfirmationUpdated,
-  username: usernameUpdated,
-};
-
-const errorMessages = {
-  username: 'Username error',
-  email: 'Email error',
-  password: 'Password error',
-  password_confirmation: 'Password confirmation error',
-};
+const errorMessages = [
+  { message: 'FirstName error', path: ['attributes', 'firstName'] },
+  { message: 'LastName error', path: ['attributes', 'lastName'] },
+  { message: 'Email error', path: ['attributes', 'email'] },
+  { message: 'Password error', path: ['attributes', 'password'] },
+  {
+    message: 'Password confirmation error',
+    path: ['attributes', 'passwordConfirmation'],
+  },
+];
 
 let store;
 let wrapper;
 
-function mountWrapper() {
+function mountWrapper(mockResponseUpdate) {
   wrapper = mount(
     <IntlProvider locale="en">
       <IntlCatcher>
         <Provider store={store}>
-          <MockedProvider mocks={mocks()} addTypename={false}>
+          <MockedProvider mocks={mocks(mockResponseUpdate)} addTypename={false}>
             <div>
               <NotificationSystem />
-              <ProfilePage user={userObject} />
+              <ProfilePage user={userObjectUpdated} />
             </div>
           </MockedProvider>
         </Provider>
@@ -85,21 +86,24 @@ function mountWrapper() {
   );
 }
 
-async function configureWrapper() {
+async function configureWrapper(mockResponseUpdate) {
   store = new ConfigureTestStore().store;
-  await mountWrapper();
+  await mountWrapper(mockResponseUpdate);
 }
 
 async function waitTillStartDataFetched() {
   await act(async () => {
-    waitForExpect(() => {
+    await waitForExpect(() => {
       wrapper.update();
       expect(wrapper.find(`input[name="email"]`).props().defaultValue).toEqual(
-        email,
+        userObject.email,
       );
       expect(
-        wrapper.find(`input[name="username"]`).props().defaultValue,
-      ).toEqual(username);
+        wrapper.find(`input[name="first_name"]`).props().defaultValue,
+      ).toEqual(userObject.firstName);
+      expect(
+        wrapper.find(`input[name="last_name"]`).props().defaultValue,
+      ).toEqual(userObject.lastName);
       expect(
         wrapper.find(`input[name="password"]`).props().defaultValue,
       ).toEqual(undefined);
@@ -113,35 +117,37 @@ async function waitTillStartDataFetched() {
 
 async function fillInAndSubmitForm() {
   await waitTillStartDataFetched();
-  wrapper
-    .find('input[name="email"]')
-    .simulate('change', { target: { value: emailUpdated } });
-  wrapper
-    .find('input[name="username"]')
-    .simulate('change', { target: { value: usernameUpdated } });
-  wrapper
-    .find('input[name="password"]')
-    .simulate('change', { target: { value: passwordUpdated } });
-  wrapper
-    .find('input[name="password_confirmation"]')
-    .simulate('change', { target: { value: passwordConfirmationUpdated } });
-
-  wrapper.find('button[type="submit"]').simulate('submit');
+  await act(async () => {
+    wrapper
+      .find('input[name="email"]')
+      .simulate('change', { target: { value: userObjectUpdated.email } });
+    wrapper
+      .find('input[name="first_name"]')
+      .simulate('change', { target: { value: userObjectUpdated.firstName } });
+    wrapper
+      .find('input[name="last_name"]')
+      .simulate('change', { target: { value: userObjectUpdated.lastName } });
+    wrapper
+      .find('input[name="password"]')
+      .simulate('change', { target: { value: userObjectUpdated.password } });
+    wrapper.find('input[name="password_confirmation"]').simulate('change', {
+      target: { value: userObjectUpdated.passwordConfirmation },
+    });
+  });
+  await act(async () => {
+    wrapper.find('button[type="submit"]').simulate('submit');
+  });
 }
-
-beforeEach(() => {
-  configureWrapper();
-});
 
 describe('<Form />', () => {
   context('when update succeeded', () => {
     beforeEach(() => {
-      mockResponseUpdate = { success: true, errors: [] };
+      configureWrapper({ success: true, errors: [] });
     });
 
     it('should add success notification', async () => {
-      fillInAndSubmitForm();
-      waitForExpect(() => {
+      await fillInAndSubmitForm();
+      await waitForExpect(() => {
         expect(wrapper.text()).toContain(
           messages.profileUpdateSucceededNotify.defaultMessage,
         );
@@ -151,19 +157,28 @@ describe('<Form />', () => {
 
   context('when update not succeeded', () => {
     beforeEach(() => {
-      mockResponseUpdate = { success: false, errors: errorMessages };
+      configureWrapper({ success: false, errors: errorMessages });
     });
 
     it('should render an error messages with notification', async () => {
-      fillInAndSubmitForm();
-      waitForExpect(() => {
-        wrapper.update();
-        Object.keys(errorMessages).each((key) => {
-          expect(wrapper.contains(errorMessages[key])).toEqual(true);
+      await fillInAndSubmitForm();
+      await act(async () => {
+        await waitForExpect(() => {
+          wrapper.update();
+
+          const errors = prepareActiveModelErrors(errorMessages);
+          Object.keys(errors).forEach((key) => {
+            const errorMessage =
+              key === 'attributes_password'
+                ? `${errors[key]}. ${messages.formPasswordLeaveBlank.defaultMessage}`
+                : errors[key];
+            expect(wrapper.contains(errorMessage)).toEqual(true);
+          });
+
+          expect(wrapper.text()).toContain(
+            messages.profileUpdateFailedNotify.defaultMessage,
+          );
         });
-        expect(
-          wrapper.contains(messages.profileUpdateFailedNotify.defaultMessage),
-        ).toEqual(true);
       });
     });
   });

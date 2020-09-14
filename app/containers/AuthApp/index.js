@@ -12,6 +12,7 @@ import { Redirect, Switch, Route } from 'react-router-dom';
 
 import Footer from 'components/Footer/index';
 import SignInPage from 'containers/_authPages/SignInPage/Loadable';
+import SignUpPage from 'containers/_authPages/SignUpPage/Loadable';
 import ContentWrapper from './ContentWrapper';
 
 function AuthApp() {
@@ -19,6 +20,7 @@ function AuthApp() {
     <ContentWrapper>
       <Switch>
         <Route exact path="/sign-in" component={SignInPage} />
+        <Route exact path="/sign-up" component={SignUpPage} />
         <Route>
           <Redirect to="/sign-in" />
         </Route>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import PropTypes from 'prop-types';
 
 import {
   Divider,
@@ -11,24 +10,21 @@ import {
 
 import { useMutation } from 'containers/ApiConnector/apollo/fetchers';
 import prepareActiveModelErrors from 'utils/prepareActiveModelErrors';
-import { PROFILE_UPDATE_MUTATION } from './graphql';
+import { SIGN_UP_MUTATION } from './graphql';
 
 import messages from './messages';
-import {
-  profileUpdateFailedNotify,
-  profileUpdateSucceededNotify,
-} from './notifications';
+import { signedUpNotify, signUpFailedNotify } from './notifications';
 
-function Form({ intl, user }) {
+function Form({ intl }) {
   // Form state
   const [errorMessages, setErrorMessages] = useState({});
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [email, setEmail] = useState(user.email);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [passwordConfirmation, setPasswordConfirmation] = useState(null);
 
-  const [profileUpdate, { loading }] = useMutation(PROFILE_UPDATE_MUTATION, {
+  const [signUp, { loading }] = useMutation(SIGN_UP_MUTATION, {
     context: {
       disableRetry: true,
     },
@@ -40,27 +36,20 @@ function Form({ intl, user }) {
       passwordConfirmation,
     },
     onCompleted: (data) => {
-      const feedback = data.profileUpdate;
+      const feedback = data.authSignUp;
       if (feedback.success) {
-        profileUpdateSucceededNotify();
+        signedUpNotify();
         setErrorMessages({});
       } else {
+        signUpFailedNotify();
         setErrorMessages(prepareActiveModelErrors(feedback.errors));
-        profileUpdateFailedNotify();
       }
     },
   });
 
   const onSubmit = (event) => {
     event.preventDefault();
-    profileUpdate();
-  };
-
-  const passwordErrorMessage = () => {
-    const message = errorMessages.attributes_password
-      ? `${errorMessages.attributes_password}. `
-      : '';
-    return message + intl.formatMessage(messages.formPasswordLeaveBlank);
+    signUp();
   };
 
   return (
@@ -111,7 +100,7 @@ function Form({ intl, user }) {
           name="password"
           onChange={(event) => setPassword(event.target.value)}
           variant="outlined"
-          helperText={passwordErrorMessage()}
+          helperText={errorMessages.attributes_password}
           error={!!errorMessages.attributes_password}
         />
       </Grid>
@@ -137,7 +126,6 @@ function Form({ intl, user }) {
 
 Form.propTypes = {
   intl: intlShape.isRequired,
-  user: PropTypes.object.isRequired,
 };
 
 export default injectIntl(Form);

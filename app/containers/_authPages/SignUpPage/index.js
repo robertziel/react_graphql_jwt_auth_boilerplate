@@ -6,7 +6,7 @@ import { Container, Divider, H1, Link, Paper } from 'components/_ui-elements';
 import Form from './Form';
 import messages from './messages';
 
-function SignInPage() {
+function SignUpPage() {
   return (
     <Container fullHeight centerContent>
       <Paper topLine>
@@ -15,12 +15,12 @@ function SignInPage() {
         </H1>
         <Divider />
         <Form />
-        <Link href="/sign-up">
-          <FormattedMessage {...messages.signUp} />
+        <Link href="/sign-in">
+          <FormattedMessage {...messages.signIn} />
         </Link>
       </Paper>
     </Container>
   );
 }
 
-export default SignInPage;
+export default SignUpPage;
